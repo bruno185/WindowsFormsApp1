@@ -15,20 +15,28 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        // import des fonctions des DLL
+        [DllImport("user32.dll")]
+        public static extern void SetWindowText(int hWnd, String text);
+        [DllImport("user32.dll")]
+        static extern int MessageBoxA(int hWnd, string strMsg, string strCaption, int iType);
+
+        [DllImport("DLL.dll")]
+        static extern long mafonction();
+        [DllImport("DLL.dll")]
+        static extern int DoMul(int entier1, int entier2);
+
+        public IntPtr wHnd;
+
         public Form1()
         {
             InitializeComponent();
+            wHnd = this.Handle;
+
         }
 
         class PInvoke1App
         {
-            [DllImport("user32.dll")]
-            static extern int MessageBoxA(int hWnd, string strMsg, string strCaption, int iType);
-            [DllImport("DLL.dll")]
-            static extern long  mafonction();
-            [DllImport("DLL.dll")]
-            static extern int DoMul(int entier1, int entier2);
-
             public static void CallDll()
             {
                 string hello = "Hello, World!";
@@ -48,6 +56,7 @@ namespace WindowsFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             PInvoke1App.CallDll();
+            SetWindowText(wHnd.ToInt32(), "--- Titre de fenêtre ---");
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
