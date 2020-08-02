@@ -26,24 +26,24 @@ namespace WindowsFormsApp1
             static extern int MessageBoxA(int hWnd, string strMsg, string strCaption, int iType);
             [DllImport("DLL.dll")]
             static extern long  mafonction();
+            [DllImport("DLL.dll")]
+            static extern int DoMul(int entier1, int entier2);
 
             public static void CallDll()
             {
                 string hello = "Hello, World!";
+                MessageBoxA(0, hello, "MessageBoxA", 0);
                 long i;
                 i = mafonction();
                 hello = i.ToString("X");
-                
-                MessageBoxA(0, hello, "This is called from a C# app!", 0);
-
+                MessageBoxA(0, hello, "mafonction();", 0);
+                int i2;
+                i2 = DoMul(5, 100);
+                hello = i2.ToString();
+                MessageBoxA(0, hello, "DoMul(5, 100);", 0);
             }
         }
 
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -54,9 +54,8 @@ namespace WindowsFormsApp1
         {
             Graphics g = e.Graphics;
             Pen p = new Pen(Color.Black, 4);
-            int i;
             int j = 15;
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 g.DrawLine(p, 50 + j * i, 50, 151 + j * i, 151);
             }
